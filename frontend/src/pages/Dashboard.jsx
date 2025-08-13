@@ -15,7 +15,6 @@ export default function Dashboard() {
     setLoading(true);
     try {
       const res = await api.get('/simulate');
-      // Sort by createdAt desc to ensure latest first
       const sortedSims = (res.data || []).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setSims(sortedSims);
     } catch (err) {
@@ -33,54 +32,56 @@ export default function Dashboard() {
 
   return (
     <motion.div
-      className="page"
+      className="page container mx-auto p-4 sm:p-6 lg:p-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="page-header">
+      <div className="page-header mb-6">
         <div>
-          <h1>Dashboard</h1>
-          <p className="muted">Latest simulation KPIs and history</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">Dashboard</h1>
+          <p className="muted text-sm sm:text-base">Latest simulation KPIs and history</p>
         </div>
       </div>
 
-      {loading && <div className="card muted">Loading…</div>}
-      {error && <div className="card alert">{error}</div>}
+      {loading && <div className="card muted p-4 rounded-lg bg-gray-100 text-center">Loading…</div>}
+      {error && <div className="card alert p-4 rounded-lg bg-red-100 text-red-700">{error}</div>}
 
-      {!loading && !latest && <div className="card">No simulations yet — run one.</div>}
+      {!loading && !latest && (
+        <div className="card p-4 rounded-lg bg-gray-100 text-center">No simulations yet — run one.</div>
+      )}
 
       {latest && latest.kpis && (
         <>
           <motion.div
-            className="grid-3"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="stat-card">
-              <div className="stat-label">Total Profit</div>
-              <div className="stat-value">₹{Math.round(latest.kpis.totalProfit)}</div>
+            <div className="stat-card p-4 rounded-lg bg-white shadow">
+              <div className="stat-label text-sm sm:text-base font-medium">Total Profit</div>
+              <div className="stat-value text-lg sm:text-xl font-bold">₹{Math.round(latest.kpis.totalProfit)}</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-label">Efficiency</div>
-              <div className="stat-value">{latest.kpis.efficiency.toFixed(2)}%</div>
+            <div className="stat-card p-4 rounded-lg bg-white shadow">
+              <div className="stat-label text-sm sm:text-base font-medium">Efficiency</div>
+              <div className="stat-value text-lg sm:text-xl font-bold">{latest.kpis.efficiency.toFixed(2)}%</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-label">Fuel Cost</div>
-              <div className="stat-value">₹{Math.round(latest.kpis.fuelCostTotal)}</div>
+            <div className="stat-card p-4 rounded-lg bg-white shadow">
+              <div className="stat-label text-sm sm:text-base font-medium">Fuel Cost</div>
+              <div className="stat-value text-lg sm:text-xl font-bold">₹{Math.round(latest.kpis.fuelCostTotal)}</div>
             </div>
           </motion.div>
 
           <motion.div
-            className="charts-row"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-4"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <div className="chart-card">
-              <h4>On-time vs Late</h4>
-              <div style={{ width: '100%', height: 250 }}>
+            <div className="chart-card p-4 rounded-lg bg-white shadow">
+              <h4 className="text-base sm:text-lg font-semibold mb-4">On-time vs Late</h4>
+              <div className="w-full h-64 sm:h-80">
                 <ResponsiveContainer>
                   <PieChart>
                     <Pie
@@ -90,7 +91,7 @@ export default function Dashboard() {
                       ]}
                       dataKey="value"
                       nameKey="name"
-                      outerRadius={80}
+                      outerRadius="80%"
                       label
                     >
                       <Cell fill={COLORS[0]} />
@@ -102,9 +103,9 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="chart-card">
-              <h4>Fuel Cost Breakdown</h4>
-              <div style={{ width: '100%', height: 250 }}>
+            <div className="chart-card p-4 rounded-lg bg-white shadow">
+              <h4 className="text-base sm:text-lg font-semibold mb-4">Fuel Cost Breakdown</h4>
+              <div className="w-full h-64 sm:h-80">
                 <ResponsiveContainer>
                   <PieChart>
                     <Pie
@@ -114,7 +115,7 @@ export default function Dashboard() {
                       ]}
                       dataKey="value"
                       nameKey="name"
-                      outerRadius={80}
+                      outerRadius="80%"
                       label
                     >
                       <Cell fill={FUEL_COLORS[0]} />
@@ -126,18 +127,18 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="chart-card">
-              <h4>History</h4>
-              <div className="history-list">
+            <div className="chart-card p-4 rounded-lg bg-white shadow">
+              <h4 className="text-base sm:text-lg font-semibold mb-4">History</h4>
+              <div className="history-list max-h-64 sm:max-h-80 overflow-y-auto">
                 {sims.map(s => (
                   <motion.div
                     key={s._id}
-                    className="history-item"
+                    className="history-item p-3 border-b last:border-b-0 hover:bg-gray-50"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div>{new Date(s.createdAt).toLocaleString()}</div>
-                    <div className="muted">
+                    <div className="text-sm sm:text-base">{new Date(s.createdAt).toLocaleString()}</div>
+                    <div className="muted text-xs sm:text-sm">
                       ₹{Math.round(s.kpis.totalProfit)} • {s.kpis.efficiency.toFixed(1)}%
                     </div>
                   </motion.div>
