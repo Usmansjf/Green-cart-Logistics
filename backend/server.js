@@ -13,22 +13,28 @@ const app = express();
 const allowedOrigins = [
   process.env.FRONTEND_URL, 
   "http://localhost:5173",  
-  "https://green-cart-logistics-git-main-usmansjfs-projects.vercel.app" 
 ];
+
+function isAllowedOrigin(origin) {
+  if (!origin) return true;
+  if (allowedOrigins.includes(origin)) return true;
+  if (origin.endsWith(".vercel.app")) return true; 
+  return false;
+}
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true); 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
+    if (isAllowedOrigin(origin)) {
+      callback(null, true);
     } else {
-      return callback(new Error("Not allowed by CORS: " + origin));
+      callback(new Error("Not allowed by CORS: " + origin));
     }
   },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 
 app.use(express.json());
 
