@@ -38,12 +38,15 @@ export default function Dashboard() {
       transition={{ duration: 0.5 }}
     >
       <div className="page-header mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold">Dashboard</h1>
-        <p className="muted text-sm sm:text-base">Latest simulation KPIs and history</p>
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold">Dashboard</h1>
+          <p className="muted text-sm sm:text-base">Latest simulation KPIs and history</p>
+        </div>
       </div>
 
       {loading && <div className="card muted p-4 rounded-lg bg-gray-100 text-center">Loading…</div>}
       {error && <div className="card alert p-4 rounded-lg bg-red-100 text-red-700">{error}</div>}
+
       {!loading && !latest && (
         <div className="card p-4 rounded-lg bg-gray-100 text-center">No simulations yet — run one.</div>
       )}
