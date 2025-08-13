@@ -68,7 +68,6 @@ export default function SimulationPage() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        {/* Form card */}
         <div className="card form-card p-4 rounded-lg bg-white shadow">
           <label className="block mb-4">
             <span className="text-sm sm:text-base font-medium">Number of drivers</span>
@@ -80,7 +79,6 @@ export default function SimulationPage() {
               className="mt-1 block w-full p-2 border rounded-md"
             />
           </label>
-
           <label className="block mb-4">
             <span className="text-sm sm:text-base font-medium">Start time</span>
             <input
@@ -91,7 +89,6 @@ export default function SimulationPage() {
               className="mt-1 block w-full p-2 border rounded-md"
             />
           </label>
-
           <label className="block mb-4">
             <span className="text-sm sm:text-base font-medium">Max hours / driver</span>
             <input
@@ -118,7 +115,6 @@ export default function SimulationPage() {
           {error && <div className="alert mt-3 p-3 bg-red-100 text-red-700 rounded-md">{error}</div>}
         </div>
 
-        {/* Result KPIs and charts */}
         <div className="card result-card p-4 rounded-lg bg-white shadow">
           {!result && <div className="muted text-center text-sm sm:text-base">No results yet — run a simulation.</div>}
 
@@ -189,7 +185,7 @@ export default function SimulationPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {result?.allocations.map(a => (
+                  {result.allocations.map(a => (
                     <motion.tr
                       key={a.order_id}
                       initial={{ opacity: 0 }}

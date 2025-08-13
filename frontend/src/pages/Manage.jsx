@@ -28,10 +28,8 @@ export default function Manage() {
       transition={{ duration: 0.5 }}
     >
       <div className="page-header mb-6">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold">Management Panel</h1>
-          <p className="muted text-sm sm:text-base">Manage drivers, orders, and routes in one place</p>
-        </div>
+        <h1 className="text-2xl sm:text-3xl font-bold">Management Panel</h1>
+        <p className="muted text-sm sm:text-base">Manage drivers, orders, and routes in one place</p>
       </div>
 
       <motion.div
